@@ -53,12 +53,58 @@ const storage = new GridFsStorage({
 const uploads = multer({storage});
 
 app.post('/uploads', uploads.single('file'), (req, res) => {
-  res.json({file: req.file});
+  //res.json({file: req.file});
+  res.redirect('/');
 });
 
 app.get('/uploads', (req, res) => {
   res.render('uploads.hbs');
 });
+
+
+app.get('/files', (req, res) => {
+  gfs.files.find().toArray((err, files) => {
+    if(!files || files.length === 0) {
+      return res.status(404).json({
+        err: 'no files exists'
+      });
+    }
+    return res.json(files);
+  });
+});
+
+
+app.get('/files/:filename', (req, res) => {
+  gfs.files.findOne({filename: req.params.filename}, (err, file) => {
+    if(!file || file.length === 0) {
+      return res.status(404).json({
+        err: 'no file exists'
+      });
+    }
+    return res.json(file);
+  });
+});
+
+
+app.get('/image/:filename', (req, res) => {
+  gfs.files.findOne({filename: req.params.filename}, (err, file) => {
+    if(!file || file.length === 0) {
+      return res.status(404).json({
+        err: 'no file exists'
+      });
+    }
+    //return res.json(file);
+    if(file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
+      const readstream = gfs.createReadStream(file.filename);
+      readstream.pipe(res);
+    } else {
+      res.status(404).json({
+        err: 'not image'
+      });
+    }
+  });
+});
+
 
 app.get('/', (req, res) => {
   res.render('index.hbs');
@@ -67,3 +113,5 @@ app.get('/', (req, res) => {
 app.listen(port, (req, res) => {
   console.log(`--- server start on port ${port}---`);  
 });
+
+// stop 0-38
