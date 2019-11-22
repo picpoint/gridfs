@@ -126,18 +126,39 @@ app.get('/', (req, res) => {
 
 
 app.get('/uploads', (req, res) => {
+  res.render('uploads');      
+  // gfs.files.find().toArray((err, files) => {
+  //   if(!files || files.length === 0) {
+  //     res.render('uploads', {files: false});
+  //   } else {
+  //     files.map(file => {
+  //       if(file.contentType == 'image/jpeg' || file.contentType == 'image/jpg' || file.contentType == 'image/png') {
+  //         file.isImage = true;
+  //       } else {
+  //         file.isImage = false;
+  //       }
+  //     });
+  //     res.render('uploads', {files: files});      
+  //   }
+  //   //return res.json(files);
+  // });
+});
+
+
+app.get('/show', (req, res) => {
   gfs.files.find().toArray((err, files) => {
     if(!files || files.length === 0) {
-      res.render('uploads', {files: false});
+      res.render('show', {files: false});
     } else {
       files.map(file => {
-        if(file.contentType === 'image/jpeg' || file.contentType === 'image/png' || file.contentType === 'image/jpg') {
+        if(file.contentType == 'image/jpeg' || file.contentType == 'image/jpg' || file.contentType == 'image/png') {
           file.isImage = true;
         } else {
           file.isImage = false;
         }
       });
-      res.render('uploads', {files: files});
+      res.render('show', {files});
+      //console.log(files);
     }
     //return res.json(files);
   });
