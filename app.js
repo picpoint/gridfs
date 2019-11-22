@@ -52,8 +52,7 @@ const storage = new GridFsStorage({
 });
 const uploads = multer({storage});
 
-app.post('/uploads', uploads.single('file'), (req, res) => {
-  //res.json({file: req.file});
+app.post('/uploads', uploads.single('file'), (req, res) => {  
   res.redirect('/');
 });
 
@@ -93,7 +92,7 @@ app.get('/image/:filename', (req, res) => {
         err: 'no file exists'
       });
     }
-    //return res.json(file);
+
     if(file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
       const readstream = gfs.createReadStream(file.filename);
       readstream.pipe(res);
@@ -119,29 +118,13 @@ app.get('/', (req, res) => {
         }
       });
       res.render('index', {files: files});
-    }
-    //return res.json(files);
+    }    
   });
 });
 
 
 app.get('/uploads', (req, res) => {
-  res.render('uploads');      
-  // gfs.files.find().toArray((err, files) => {
-  //   if(!files || files.length === 0) {
-  //     res.render('uploads', {files: false});
-  //   } else {
-  //     files.map(file => {
-  //       if(file.contentType == 'image/jpeg' || file.contentType == 'image/jpg' || file.contentType == 'image/png') {
-  //         file.isImage = true;
-  //       } else {
-  //         file.isImage = false;
-  //       }
-  //     });
-  //     res.render('uploads', {files: files});      
-  //   }
-  //   //return res.json(files);
-  // });
+  res.render('uploads');
 });
 
 
@@ -157,10 +140,8 @@ app.get('/show', (req, res) => {
           file.isImage = false;
         }
       });
-      res.render('show', {files});
-      //console.log(files);
-    }
-    //return res.json(files);
+      res.render('show', {files});      
+    }    
   });
 });
 
