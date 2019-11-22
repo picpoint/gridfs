@@ -7,4 +7,15 @@
 </form>
 
 <br><br>
+<hr>
+
+
+{{#if files.length}}
+  {{#each files}}
+    <img src="{{file.filename}}" alt="{{file.filename}}">
+  {{/each}}
+{{else}}
+  <p>No files ... </p>
+{{/if}}
+
 <a href="/">Home page</a>

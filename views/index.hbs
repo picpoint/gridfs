@@ -1,3 +1,13 @@
 <h2>Home page</h2>
 <br>
 <a href="uploads">uploads page</a>
+
+<br><br>
+
+{{#if files.length}}
+  {{#each files}}
+    <img src="{{file.filename}}" alt="">
+  {{/each}}
+{{else}}
+  <p>No files ... </p>
+{{/if}}

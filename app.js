@@ -107,11 +107,44 @@ app.get('/image/:filename', (req, res) => {
 
 
 app.get('/', (req, res) => {
-  res.render('index.hbs');
+  gfs.files.find().toArray((err, files) => {
+    if(!files || files.length === 0) {
+      res.render('index', {files: false});
+    } else {
+      files.map(file => {
+        if(file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
+          file.isImage = true;
+        } else {
+          file.isImage = false;
+        }
+      });
+      res.render('index', {files: files});
+    }
+    //return res.json(files);
+  });
 });
+
+
+app.get('/uploads', (req, res) => {
+  gfs.files.find().toArray((err, files) => {
+    if(!files || files.length === 0) {
+      res.render('uploads', {files: false});
+    } else {
+      files.map(file => {
+        if(file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
+          file.isImage = true;
+        } else {
+          file.isImage = false;
+        }
+      });
+      res.render('uploads', {files: files});
+    }
+    //return res.json(files);
+  });
+});
+
 
 app.listen(port, (req, res) => {
   console.log(`--- server start on port ${port}---`);  
 });
 
-// stop 0-38
