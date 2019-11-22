@@ -131,7 +131,7 @@ app.get('/uploads', (req, res) => {
       res.render('uploads', {files: false});
     } else {
       files.map(file => {
-        if(file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
+        if(file.contentType === 'image/jpeg' || file.contentType === 'image/png' || file.contentType === 'image/jpg') {
           file.isImage = true;
         } else {
           file.isImage = false;

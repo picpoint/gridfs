@@ -11,8 +11,12 @@
 
 
 {{#if files.length}}
-  {{#each files}}
-    <img src="{{file.filename}}" alt="{{file.filename}}">
+  {{#each files}}    
+    <img src="image/{{file.filename}}" alt="">
+    <img src="{{file.filename}}" alt="">
+    {{file}}
+    {{filename}}
+    {{file.filename}}
   {{/each}}
 {{else}}
   <p>No files ... </p>
